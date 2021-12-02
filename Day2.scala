@@ -14,11 +14,7 @@ object Day2 extends App {
         case "down" => depth += com(1).toInt
         case "forward" => horizontal += com(1).toInt
     }
-    println(s"horizontal = ${horizontal}")
-    println(s"depth = ${depth}")
   }}
-  println(s"horizontal = ${horizontal}")
-  println(s"depth = ${depth}")
 
   println(s"Part one = ${horizontal * depth}")
 
