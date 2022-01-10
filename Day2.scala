@@ -1,40 +1,49 @@
 import scala.io.Source
+import scala.util.{Failure, Success, Using}
 
 object Day2 extends App {
-  val rows = Source.fromFile("input2").getLines.toList
+  Using(Source.fromFile("inputs/input2")) {
+    _.getLines().toList
+  } match {
+    case Failure(f) => println(f)
+    case Success(rows) =>
+      //var horizontal = 0
+      //var depth = 0
 
-  var horizontal = 0
-  var depth = 0
+      val (horizontal, depth) = rows.foldLeft((0,0)) {
+        case ((horizontal, depth), s"up $value") => (horizontal, depth - value.toInt)
+        case ((horizontal, depth), s"down $value") => (horizontal, depth + value.toInt)
+        case ((horizontal, depth), s"forward $value") => (horizontal + value.toInt, depth)
+      }
 
-  rows foreach { command => {
-    val com = command.split(" ")
-    println(s"${com(0)} ${com(1)}")
-    com(0) match {
-        case "up" => depth -= com(1).toInt
-        case "down" => depth += com(1).toInt
-        case "forward" => horizontal += com(1).toInt
-    }
-  }}
+      println(s"Part one = ${horizontal * depth}")
 
-  println(s"Part one = ${horizontal * depth}")
+      val (horizontal2, depth2, _) = rows.foldLeft((0,0,0)) {
+        case ((horizontal, depth, aim), s"up $value") => (horizontal, depth, aim - value.toInt)
+        case ((horizontal, depth, aim), s"down $value") => (horizontal, depth, aim + value.toInt)
+        case ((horizontal, depth, aim), s"forward $value") => (horizontal + value.toInt, depth + aim * value.toInt, aim)
+      }
 
-  horizontal = 0
-  depth = 0
-  var aim = 0
+      println(s"Part two = ${horizontal2 * depth2}")
 
-  rows foreach { command => {
-    val com = command.split(" ")
-    println(s"${com(0)} ${com(1)}")
-    val x = com(1).toInt
-    com(0) match {
-        case "up" => aim -= x
-        case "down" => aim += x
-        case "forward" => {
-            horizontal += x
-            depth += aim * x
+      /*horizontal = 0
+      depth = 0
+      var aim = 0
+
+      rows foreach { command => {
+
+        command match {
+          case s"up $value" => aim -= value.toInt
+          case s"down $value" => aim += value.toInt
+          case s"forward $value" =>
+            horizontal += value.toInt
+            depth += aim * value.toInt
         }
-    }
-  }}
+      }
+      }
 
-  println(s"Part two = ${horizontal * depth}")
+      println(s"Part two = ${horizontal * depth}")*/
+  }
+
+
 }
