@@ -1,3 +1,4 @@
+import java.lang
 import java.math.BigInteger
 import scala.collection.mutable
 import scala.io.Source
@@ -24,30 +25,28 @@ object Day16 extends App {
             }
             value ++= sub.slice(1,5)
             sub = sub.drop(5)
-            (v,new BigInteger(value.mkString(""),2).longValue(),sub)
+            (v, java.lang.Long.parseLong(value.mkString(""),2),sub)
           case _ =>
             val i = binArr(6)
             val l = if (i == 0) Integer.parseInt(binArr.slice(7,22).mkString(""),2) else Integer.parseInt(binArr.slice(7,18).mkString(""),2)
             var sub = if (i == 0) binArr.slice(22,22+l) else binArr.slice(18,binArr.length)
             var total = v
             val values = mutable.ListBuffer[Long]()
-            sub = i match {
-              case 0 =>
-                while (sub.nonEmpty) {
-                  val (subV, value, newSub) = parsePacket(sub)
-                  values += value
-                  total += subV
-                  sub = newSub
-                }
-                binArr.slice(22+l,binArr.length)
-              case 1 =>
+            if (i == 0) {
+              while (sub.nonEmpty) {
+                val (subV, value, newSub) = parsePacket(sub)
+                values += value
+                total += subV
+                sub = newSub
+              }
+              sub = binArr.slice(22 + l, binArr.length)
+            } else {
                 for (_ <- 0 until l) {
                   val (subV, value, newSub) = parsePacket(sub)
                   values += value
                   total += subV
                   sub = newSub
                 }
-                sub
             }
             val res = t match {
               case 0 => values.sum
