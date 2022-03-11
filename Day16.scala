@@ -8,8 +8,8 @@ object Day16 extends App {
   } match {
     case Failure(f) => println(f)
     case Success(input) =>
-      def mapOperator(oppType: Int, values: Seq[Long]): Long = {
-        oppType match {
+      def mapOperator(opType: Int, values: Seq[Long]): Long = {
+        opType match {
           case 0 => values.sum
           case 1 => values.product
           case 2 => values.min
