@@ -1,5 +1,3 @@
-import java.lang
-import java.math.BigInteger
 import scala.collection.mutable
 import scala.io.Source
 import scala.util.{Failure, Success, Using}
