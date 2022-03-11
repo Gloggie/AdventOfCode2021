@@ -4,12 +4,10 @@ import scala.util.{Failure, Success, Using}
 
 object Day16 extends App {
   Using(Source.fromFile("inputs/input16")) {
-    _.getLines().toSeq
+    _.getLines().toSeq.head.split("").foldLeft("")((s, h) => s + Integer.toBinaryString(Integer.parseInt(h, 16)).reverse.padTo(4, '0').reverse).split("").map(_.toInt).toSeq
   } match {
     case Failure(f) => println(f)
     case Success(input) =>
-      val binArr = input.head.split("").foldLeft("")((s, h) => s + Integer.toBinaryString(Integer.parseInt(h, 16)).reverse.padTo(4, '0').reverse).split("").map(_.toInt).toSeq
-
       def mapOperator(oppType: Int, values: Seq[Long]): Long = {
         oppType match {
           case 0 => values.sum
@@ -67,7 +65,7 @@ object Day16 extends App {
         }
       }
 
-      val (totalV, result, _) = parsePacket(binArr)
+      val (totalV, result, _) = parsePacket(input)
       println(s"Part1 = $totalV")
       println(s"Part2 = $result")
   }
