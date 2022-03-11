@@ -52,7 +52,7 @@ object Day16 extends App {
         t match {
           case 4 =>
             var sub = packet.drop(6)
-            val value = mutable.ArrayBuffer[Int]()
+            val value = mutable.ListBuffer[Int]()
             while (sub.head == 1) {
               value ++= sub.slice(1, 5)
               sub = sub.drop(5)
